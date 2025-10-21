@@ -1,9 +1,9 @@
 package com.github.fiecher.app.usecase;
 
-import com.github.fiecher.app.dtos.CreateUser;
+import com.github.fiecher.app.dtos.CreateUserRequest;
 import com.github.fiecher.domain.services.UserService;
 
-public class CreateUserUseCase implements UseCase<CreateUser.CreateUserRequest, Integer> {
+public class CreateUserUseCase implements UseCase<CreateUserRequest, Integer> {
 
     private final UserService userService;
 
@@ -12,7 +12,7 @@ public class CreateUserUseCase implements UseCase<CreateUser.CreateUserRequest, 
     }
 
     @Override
-    public Integer execute(CreateUser.CreateUserRequest input) {
+    public Integer execute(CreateUserRequest input) {
         return userService.registerUser(input.login(), input.password());
     }
 
