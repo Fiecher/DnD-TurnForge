@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: dnd_postgres
+    environment:
+      POSTGRES_DB: dnd_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: test123
+      LANG: en_US.UTF-8
+      LC_ALL: en_US.UTF-8
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d/
+
+volumes:
+  postgres_data:
