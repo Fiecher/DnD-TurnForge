@@ -38,7 +38,6 @@ test {
 }
 
 jlink {
-    // Убрана зависимость от javafx.platform.classifier
     imageZip = project.file("${buildDir}/distributions/app-image.zip")
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
