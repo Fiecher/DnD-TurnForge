@@ -16,13 +16,13 @@ public class Armor {
         this.name = Objects.requireNonNull(name);
     }
 
-    public Armor(Long id, String name, String description, String image, short ac, String armorType, Double weight, Integer price) {
+    public Armor(Long id, String name, String description, String image, short ac, String type, Double weight, Integer price) {
         this.id = id;
         this.name = Objects.requireNonNull(name);
         this.description = description;
         this.image = image;
         this.ac = ac;
-        this.type = armorType;
+        this.type = type;
         this.weight = weight;
         this.price = price;
     }

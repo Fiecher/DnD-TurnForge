@@ -1,5 +1,7 @@
 package com.github.fiecher.domain.models;
 
+import java.util.Objects;
+
 public class Trait {
     private Long id;
     private String name;
@@ -8,18 +10,24 @@ public class Trait {
     private String prerequisites;
     private String type;
 
-    public Trait() {}
-
-    public Trait(Long id, String name) {
-        this.id = id;
-        this.name = name;
+    public Trait(String name) {
+        this.name = Objects.requireNonNull(name);
     }
 
-    public Long getId() {
+    public Trait(Long id, String name, String description, String image, String prerequisites, String type) {
+        this.id = id;
+        this.name = Objects.requireNonNull(name);
+        this.description = description;
+        this.image = image;
+        this.prerequisites = prerequisites;
+        this.type = type;
+    }
+
+    public Long getID() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setID(Long id) {
         this.id = id;
     }
 
@@ -61,5 +69,18 @@ public class Trait {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass() || id == null) return false;
+        Trait trait = (Trait) o;
+        return Objects.equals(id, trait.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

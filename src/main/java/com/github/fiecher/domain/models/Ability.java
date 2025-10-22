@@ -21,13 +21,13 @@ public class Ability {
         this.level = 0;
     }
 
-    public Ability(Long id, String name, String description, String image, String damage, String abilityType, short level, String time, String range, String components, String duration) {
+    public Ability(Long id, String name, String description, String image, String damage, String type, short level, String time, String range, String components, String duration) {
         this.id = id;
         this.name = Objects.requireNonNull(name);
         this.description = description;
         this.image = image;
         this.damage = damage;
-        this.type = abilityType;
+        this.type = type;
         if (level < 0) {
             throw new IllegalArgumentException("Level cannot be a negative number: " + level);
         }
