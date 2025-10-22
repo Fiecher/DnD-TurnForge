@@ -1,28 +1,37 @@
 package com.github.fiecher.domain.models;
 
+import java.util.Objects;
+
 public class Armor {
     private Long id;
     private String name;
     private String description;
     private String image;
-    private int ac;       // Armor Class
+    private short ac;
     private String type;
-    private double weight;
-    private int price;
+    private Double weight;
+    private Integer price;
 
-    public Armor() {}
-
-    public Armor(Long id, String name, int ac) {
-        this.id = id;
-        this.name = name;
-        this.ac = ac;
+    public Armor(String name) {
+        this.name = Objects.requireNonNull(name);
     }
 
-    public Long getId() {
+    public Armor(Long id, String name, String description, String image, short ac, String armorType, Double weight, Integer price) {
+        this.id = id;
+        this.name = Objects.requireNonNull(name);
+        this.description = description;
+        this.image = image;
+        this.ac = ac;
+        this.type = armorType;
+        this.weight = weight;
+        this.price = price;
+    }
+
+    public Long getID() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setID(Long id) {
         this.id = id;
     }
 
@@ -50,11 +59,11 @@ public class Armor {
         this.image = image;
     }
 
-    public int getAc() {
+    public short getAC() {
         return ac;
     }
 
-    public void setAc(int ac) {
+    public void setAC(short ac) {
         this.ac = ac;
     }
 
@@ -66,19 +75,32 @@ public class Armor {
         this.type = type;
     }
 
-    public double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass() || id == null) return false;
+        Armor armor = (Armor) o;
+        return Objects.equals(id, armor.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
