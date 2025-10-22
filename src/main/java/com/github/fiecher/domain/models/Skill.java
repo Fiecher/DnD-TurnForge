@@ -1,26 +1,27 @@
 package com.github.fiecher.domain.models;
 
+import java.util.Objects;
+
 public class Skill {
     private Long id;
-    private String name;
-    private boolean isProficient;
-    private boolean isExpertise;
+    private final String name;
+    private String description;
 
-    public Skill() {
+    public Skill(String name) {
+        this.name = Objects.requireNonNull(name);
     }
 
-    public Skill(Long id, String name, boolean isProficient, boolean isExpertise) {
+    public Skill(Long id, String name, String description) {
         this.id = id;
-        this.name = name;
-        this.isProficient = isProficient;
-        this.isExpertise = isExpertise;
+        this.name = Objects.requireNonNull(name);
+        this.description = description;
     }
 
-    public Long getId() {
+    public Long getID() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setID(Long id) {
         this.id = id;
     }
 
@@ -28,23 +29,24 @@ public class Skill {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getDescription() {
+        return description;
     }
 
-    public boolean isProficient() {
-        return isProficient;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setProficient(boolean proficient) {
-        isProficient = proficient;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass() || id == null) return false;
+        Skill skill = (Skill) o;
+        return Objects.equals(id, skill.id);
     }
 
-    public boolean isExpertise() {
-        return isExpertise;
-    }
-
-    public void setExpertise(boolean expertise) {
-        isExpertise = expertise;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
