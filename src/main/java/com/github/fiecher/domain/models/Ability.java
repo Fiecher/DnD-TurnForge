@@ -1,32 +1,48 @@
 package com.github.fiecher.domain.models;
 
+import java.util.Objects;
+
 public class Ability {
     private Long id;
     private String name;
     private String description;
     private String image;
-    private int damage;
+    private String damage;
     private String type;
-    private int level;
+    private short level;
     private String time;
     private String range;
     private String components;
     private String duration;
 
-    public Ability() {}
-
-    public Ability(Long id, String name, String description, int damage) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+    public Ability(String name, String damage) {
+        this.name = Objects.requireNonNull(name, "Name must not be null");
         this.damage = damage;
+        this.level = 0;
     }
 
-    public Long getId() {
+    public Ability(Long id, String name, String description, String image, String damage, String abilityType, short level, String time, String range, String components, String duration) {
+        this.id = id;
+        this.name = Objects.requireNonNull(name);
+        this.description = description;
+        this.image = image;
+        this.damage = damage;
+        this.type = abilityType;
+        if (level < 0) {
+            throw new IllegalArgumentException("Level cannot be a negative number: " + level);
+        }
+        this.level = level;
+        this.time = time;
+        this.range = range;
+        this.components = components;
+        this.duration = duration;
+    }
+
+    public Long getID() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setID(Long id) {
         this.id = id;
     }
 
@@ -54,11 +70,11 @@ public class Ability {
         this.image = image;
     }
 
-    public int getDamage() {
+    public String getDamage() {
         return damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(String damage) {
         this.damage = damage;
     }
 
@@ -70,11 +86,11 @@ public class Ability {
         this.type = type;
     }
 
-    public int getLevel() {
+    public short getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(short level) {
         this.level = level;
     }
 
@@ -108,5 +124,18 @@ public class Ability {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass() || id == null) return false;
+        Ability ability = (Ability) o;
+        return Objects.equals(id, ability.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
