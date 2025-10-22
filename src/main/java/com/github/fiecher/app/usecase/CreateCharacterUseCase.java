@@ -16,12 +16,12 @@ public class CreateCharacterUseCase implements UseCase<CreateCharacterRequest, C
 
     @Override
     public CharacterCreationResponse execute(CreateCharacterRequest input) {
-        Long newId = characterService.createNewCharacter(
-                input.userId(),
+        Long newID = characterService.createNewCharacter(
+                input.userID(),
                 input.name(),
                 input.characterClass()
         );
 
-        return new CharacterCreationResponse(newId);
+        return new CharacterCreationResponse(newID);
     }
 }

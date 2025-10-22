@@ -53,7 +53,7 @@ public class CharacterDetails {
         this.items = items;
     }
 
-    public Long getId() {
+    public Long getID() {
         return id;
     }
 
@@ -125,7 +125,7 @@ public class CharacterDetails {
         return items;
     }
 
-    public void setId(Long id) {
+    public void setID(Long id) {
         this.id = id;
     }
 

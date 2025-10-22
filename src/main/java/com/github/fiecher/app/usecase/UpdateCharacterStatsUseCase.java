@@ -16,7 +16,7 @@ public class UpdateCharacterStatsUseCase implements UseCase<UpdateStatsRequest, 
     @Override
     public UpdateStatsResponse execute(UpdateStatsRequest input) {
         characterService.updateCharacterStats(
-                input.characterId(),
+                input.characterID(),
                 input.strength(),
                 input.dexterity(),
                 input.constitution(),
@@ -25,6 +25,6 @@ public class UpdateCharacterStatsUseCase implements UseCase<UpdateStatsRequest, 
                 input.charisma()
         );
 
-        return new UpdateStatsResponse(input.characterId());
+        return new UpdateStatsResponse(input.characterID());
     }
 }

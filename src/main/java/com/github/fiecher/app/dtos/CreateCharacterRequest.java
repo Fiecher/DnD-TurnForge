@@ -1,4 +1,4 @@
 package com.github.fiecher.app.dtos;
 
-public record CreateCharacterRequest(Long userId, String name, String characterClass) {
+public record CreateCharacterRequest(Long userID, String name, String characterClass) {
 }

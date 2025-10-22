@@ -1,4 +1,4 @@
 package com.github.fiecher.app.dtos;
 
-public record CharacterCreationResponse(Long characterId) {
+public record CharacterCreationResponse(Long characterID) {
 }
