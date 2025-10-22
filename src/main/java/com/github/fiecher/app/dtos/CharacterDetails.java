@@ -7,7 +7,7 @@ public class CharacterDetails {
     private Long id;
     private String name;
     private String characterClass;
-    private Integer level;
+    private Short level;
     private Short strength;
     private Short dexterity;
     private Short constitution;
@@ -32,7 +32,7 @@ public class CharacterDetails {
         this.items = Collections.emptyList();
     }
 
-    public CharacterDetails(Long id, String name, String characterClass, Integer level, Short strength, Short dexterity, Short constitution, Short intelligence, Short wisdom, Short charisma, String description, String image, String race, List<String> abilities, List<String> skills, List<String> weapons, List<String> armor, List<String> items) {
+    public CharacterDetails(Long id, String name, String characterClass, Short level, Short strength, Short dexterity, Short constitution, Short intelligence, Short wisdom, Short charisma, String description, String image, String race, List<String> abilities, List<String> skills, List<String> weapons, List<String> armor, List<String> items) {
         this.id = id;
         this.name = name;
         this.characterClass = characterClass;
@@ -65,7 +65,7 @@ public class CharacterDetails {
         return characterClass;
     }
 
-    public Integer getLevel() {
+    public Short getLevel() {
         return level;
     }
 
@@ -137,7 +137,7 @@ public class CharacterDetails {
         this.characterClass = characterClass;
     }
 
-    public void setLevel(Integer level) {
+    public void setLevel(Short level) {
         this.level = level;
     }
 

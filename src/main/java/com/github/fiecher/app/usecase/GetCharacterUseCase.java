@@ -34,7 +34,7 @@ public class GetCharacterUseCase implements UseCase<GetCharacterRequest, GetChar
 
     @Override
     public GetCharacterResponse execute(GetCharacterRequest input) {
-        Optional<Character> characterOptional = characterService.getCharacterById(input.characterId());
+        Optional<Character> characterOptional = characterService.getCharacterByID(input.characterID());
 
         Optional<CharacterDetails> detailsOptional = characterOptional.map(this::mapToDetails);
 
@@ -42,35 +42,35 @@ public class GetCharacterUseCase implements UseCase<GetCharacterRequest, GetChar
     }
 
     private CharacterDetails mapToDetails(Character character) {
-        List<String> abilityNames = character.getAbilityIds().stream()
+        List<String> abilityNames = character.getAbilityIDs().stream()
                 .map(abilityRepository::findByID)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(AbilityModel::getName)
+                .map(Ability::getName)
                 .collect(Collectors.toList());
 
-        List<String> skillNames = character.getSkillIds().stream()
+        List<String> skillNames = character.getSkillIDs().stream()
                 .map(skillRepository::findByID)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(Skill::getName)
                 .collect(Collectors.toList());
 
-        List<String> weaponNames = character.getWeaponIds().stream()
+        List<String> weaponNames = character.getWeaponIDs().stream()
                 .map(weaponRepository::findByID)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(Weapon::getName)
                 .collect(Collectors.toList());
 
-        List<String> armorNames = character.getArmorIds().stream()
+        List<String> armorNames = character.getArmorIDs().stream()
                 .map(armorRepository::findByID)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(Armor::getName)
                 .collect(Collectors.toList());
 
-        List<String> itemNames = character.getItemIds().stream()
+        List<String> itemNames = character.getItemIDs().stream()
                 .map(itemRepository::findByID)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -79,7 +79,7 @@ public class GetCharacterUseCase implements UseCase<GetCharacterRequest, GetChar
 
 
         return new CharacterDetails(
-                character.getId(),
+                character.getID(),
                 character.getName(),
                 character.getClass_(),
                 character.getLevel(),

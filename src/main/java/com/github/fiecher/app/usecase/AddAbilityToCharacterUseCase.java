@@ -17,10 +17,10 @@ public class AddAbilityToCharacterUseCase implements UseCase<AddAbilityRequest, 
     @Override
     public AddAbilityResponse execute(AddAbilityRequest input) {
         characterService.addAbilityToCharacter(
-                input.characterId(),
-                input.abilityId()
+                input.characterID(),
+                input.abilityID()
         );
 
-        return new AddAbilityResponse(input.characterId());
+        return new AddAbilityResponse(input.characterID());
     }
 }
