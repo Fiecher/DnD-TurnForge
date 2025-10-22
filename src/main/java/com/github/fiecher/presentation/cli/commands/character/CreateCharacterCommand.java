@@ -1,12 +1,12 @@
-package com.github.fiecher.cli.commands.character;
+package com.github.fiecher.presentation.cli.commands.character;
 
 import com.github.fiecher.app.dtos.CharacterCreationResponse;
 import com.github.fiecher.app.dtos.CreateCharacterRequest;
 import com.github.fiecher.app.usecase.CreateCharacterUseCase;
-import com.github.fiecher.cli.ApplicationContext;
-import com.github.fiecher.cli.Input.InputReader;
-import com.github.fiecher.cli.View;
-import com.github.fiecher.cli.commands.Command;
+import com.github.fiecher.presentation.cli.ApplicationContext;
+import com.github.fiecher.presentation.cli.Input.InputReader;
+import com.github.fiecher.presentation.cli.View;
+import com.github.fiecher.presentation.cli.commands.Command;
 import com.github.fiecher.domain.models.User;
 
 public class CreateCharacterCommand implements Command {
@@ -29,15 +29,16 @@ public class CreateCharacterCommand implements Command {
 
     @Override
     public void execute() {
-        User currentUser = context.getCurrentUser()
-                .orElseThrow(() -> new IllegalStateException("Authentication context is missing. Command can only be run by an authenticated user."));
-
+        if (!context.isAuthenticated()){
+            throw new IllegalStateException("Command can only be run by an authenticated user.");
+        }
+        User currentUser = context.getCurrentUser();
         Long userID = currentUser.getID();
 
         try {
             view.showMessage("\n --- Creating Character ---");
-            String name = reader.readLine("Enter name");
-            String characterClass = reader.readLine("Enter class");
+            String name = reader.readLine("Enter name: ");
+            String characterClass = reader.readLine("Enter class: ");
             CharacterCreationResponse characterID = createCharacterUseCase.execute(
                     new CreateCharacterRequest(userID, name, characterClass)
             );

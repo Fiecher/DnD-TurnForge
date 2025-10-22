@@ -1,11 +1,11 @@
-package com.github.fiecher.cli.commands.user;
+package com.github.fiecher.presentation.cli.commands.user;
 
 
 import com.github.fiecher.app.dtos.CreateUserRequest;
 import com.github.fiecher.app.usecase.CreateUserUseCase;
-import com.github.fiecher.cli.Input.InputReader;
-import com.github.fiecher.cli.View;
-import com.github.fiecher.cli.commands.Command;
+import com.github.fiecher.presentation.cli.Input.InputReader;
+import com.github.fiecher.presentation.cli.View;
+import com.github.fiecher.presentation.cli.commands.Command;
 
 import java.util.Objects;
 

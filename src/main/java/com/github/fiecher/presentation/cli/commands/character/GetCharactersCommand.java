@@ -1,17 +1,16 @@
-package com.github.fiecher.cli.commands.character;
+package com.github.fiecher.presentation.cli.commands.character;
 
 import com.github.fiecher.app.dtos.CharacterDetails;
 import com.github.fiecher.app.dtos.GetCharactersRequest;
 import com.github.fiecher.app.dtos.GetCharactersResponse;
 import com.github.fiecher.app.usecase.GetCharactersUseCase;
-import com.github.fiecher.cli.ApplicationContext;
-import com.github.fiecher.cli.View;
-import com.github.fiecher.cli.commands.Command;
+import com.github.fiecher.presentation.cli.ApplicationContext;
+import com.github.fiecher.presentation.cli.View;
+import com.github.fiecher.presentation.cli.commands.Command;
 import com.github.fiecher.domain.models.User;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class GetCharactersCommand implements Command {
 
@@ -37,13 +36,12 @@ public class GetCharactersCommand implements Command {
     @Override
     public void execute() {
         try {
-            Optional<User> userOptional = context.getCurrentUser();
-            if (userOptional.isEmpty()) {
-                view.showError("Authentication required to view characters.");
-                return;
+            if (!context.isAuthenticated()){
+                throw new IllegalStateException("Command can only be run by an authenticated user.");
             }
 
-            Long userID = userOptional.get().getID();
+            User currentUser = context.getCurrentUser();
+            Long userID = currentUser.getID();
 
             view.showMessage("\n --- Viewing Characters for User ID: " + userID + " ---");
 
@@ -54,7 +52,7 @@ public class GetCharactersCommand implements Command {
             List<CharacterDetails> characters = response.characters();
 
             if (characters.isEmpty()) {
-                view.showMessage("You have no characters yet. Use 'Create new Character' command.");
+                view.showMessage("You have no characters yet. Use `Create new Character` command.");
             } else {
                 view.showMessage("Found " + characters.size() + " characters:");
                 characters.forEach(c ->
