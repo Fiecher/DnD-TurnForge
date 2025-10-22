@@ -1,30 +1,35 @@
 package com.github.fiecher.app.usecase;
 
 import com.github.fiecher.app.dtos.CharacterDetails;
-import com.github.fiecher.app.dtos.GetCharacterRequest;
-import com.github.fiecher.app.dtos.GetCharacterResponse;
+import com.github.fiecher.app.dtos.GetCharactersRequest;
+import com.github.fiecher.app.dtos.GetCharactersResponse;
 import com.github.fiecher.domain.models.*;
 import com.github.fiecher.domain.models.Character;
-import com.github.fiecher.domain.services.CharacterService;
 import com.github.fiecher.domain.repositories.*;
-
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class GetCharacterUseCase implements UseCase<GetCharacterRequest, GetCharacterResponse> {
+public class GetCharactersUseCase implements UseCase<GetCharactersRequest, GetCharactersResponse> {
 
-    private final CharacterService characterService;
+    private final CharacterRepository characterRepository;
     private final AbilityRepository abilityRepository;
     private final SkillRepository skillRepository;
     private final WeaponRepository weaponRepository;
     private final ArmorRepository armorRepository;
     private final ItemRepository itemRepository;
 
-    public GetCharacterUseCase(CharacterService characterService, AbilityRepository abilityRepository, SkillRepository skillRepository, WeaponRepository weaponRepository, ArmorRepository armorRepository, ItemRepository itemRepository) {
-        this.characterService = Objects.requireNonNull(characterService);
+    public GetCharactersUseCase(
+            CharacterRepository characterRepository,
+            AbilityRepository abilityRepository,
+            SkillRepository skillRepository,
+            WeaponRepository weaponRepository,
+            ArmorRepository armorRepository,
+            ItemRepository itemRepository) {
+
+        this.characterRepository = Objects.requireNonNull(characterRepository);
         this.abilityRepository = Objects.requireNonNull(abilityRepository);
         this.skillRepository = Objects.requireNonNull(skillRepository);
         this.weaponRepository = Objects.requireNonNull(weaponRepository);
@@ -33,13 +38,16 @@ public class GetCharacterUseCase implements UseCase<GetCharacterRequest, GetChar
     }
 
     @Override
-    public GetCharacterResponse execute(GetCharacterRequest input) {
-        Optional<Character> characterOptional = characterService.getCharacterByID(input.characterID());
+    public GetCharactersResponse execute(GetCharactersRequest input) {
+        List<Character> userCharacters = characterRepository.findAllByUserID(input.userID());
 
-        Optional<CharacterDetails> detailsOptional = characterOptional.map(this::mapToDetails);
+        List<CharacterDetails> detailsList = userCharacters.stream()
+                .map(this::mapToDetails)
+                .collect(Collectors.toList());
 
-        return new GetCharacterResponse(detailsOptional);
+        return new GetCharactersResponse(detailsList);
     }
+
 
     private CharacterDetails mapToDetails(Character character) {
         List<String> abilityNames = character.getAbilityIDs().stream()
