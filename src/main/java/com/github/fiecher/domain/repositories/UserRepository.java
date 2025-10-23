@@ -1,4 +1,4 @@
-package com.github.fiecher.domain.repository;
+package com.github.fiecher.domain.repositories;
 
 import com.github.fiecher.domain.models.User;
 
@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    Integer save(User user);
+    Long save(User user);
 
-    Optional<User> findByID(int userID);
+    Optional<User> findByID(Long userID);
 
     Optional<User> findByLogin(String login);
 
@@ -17,9 +17,9 @@ public interface UserRepository {
 
     User update(User user);
 
-    void deleteByID(int userID);
+    void deleteByID(Long userID);
 
-    void deleteByLogin(int login);
+    void deleteByLogin(String login);
 
     boolean existByLogin(String login);
 }

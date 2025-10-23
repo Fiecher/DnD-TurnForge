@@ -1,7 +1,7 @@
 package com.github.fiecher.domain.services;
 
 import com.github.fiecher.domain.models.User;
-import com.github.fiecher.domain.repository.UserRepository;
+import com.github.fiecher.domain.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Integer registerUser(String login, String password) {
+    public Long registerUser(String login, String password) {
         if (userRepository.existByLogin(login)) {
             throw new IllegalStateException("User with login " + login + " already exists");
         }
@@ -37,7 +37,7 @@ public class UserService {
         return Optional.empty();
     }
 
-    public Optional<User> findById(Integer id) {
+    public Optional<User> findByID(Long id) {
         return userRepository.findByID(id);
     }
 
@@ -49,8 +49,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void changePassword(Integer userId, String oldPassword, String newPassword) {
-        Optional<User> user = userRepository.findByID(userId);
+    public void changePassword(Long userID, String oldPassword, String newPassword) {
+        Optional<User> user = userRepository.findByID(userID);
         if (user.isEmpty()) {
             throw new IllegalArgumentException("User not found");
         }

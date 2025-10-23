@@ -2,42 +2,31 @@ package com.github.fiecher.domain.models;
 
 import java.util.Objects;
 
-
-enum UserRole {
-    USER,
-    ADMIN
-}
-
 public final class User {
-
     private Long id;
     private final String login;
     private String passwordHash;
     private UserRole role;
 
     public User(String login, String passwordHash) {
-        if (login == null || login.trim().isEmpty()) {
-            throw new IllegalArgumentException("Login cannot be empty");
-        }
-        if (passwordHash == null || passwordHash.trim().isEmpty()) {
-            throw new IllegalArgumentException("Password hash cannot be empty");
-        }
-        this.login = login;
-        this.passwordHash = passwordHash;
+        this.login = Objects.requireNonNull(login);
+        this.passwordHash = Objects.requireNonNull(passwordHash);
+        this.role = UserRole.USER;
     }
 
     public User(Long id, String login, String passwordHash, UserRole role) {
-        Objects.requireNonNull(login, "Login cannot be null");
-        Objects.requireNonNull(passwordHash, "Password hash cannot be null");
-        Objects.requireNonNull(role, "Role cannot be null");
         this.id = id;
-        this.login = login;
-        this.passwordHash = passwordHash;
-        this.role = role;
+        this.login = Objects.requireNonNull(login);
+        this.passwordHash = Objects.requireNonNull(passwordHash);
+        this.role = Objects.requireNonNull(role);
     }
 
-    public Long getId() {
+    public Long getID() {
         return id;
+    }
+
+    public void setID(Long id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -48,23 +37,16 @@ public final class User {
         return passwordHash;
     }
 
-    public UserRole getRole() {
-        return role;
-    }
-
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public UserRole getRole() {
+        return role;
     }
 
-    public User assignRole(UserRole newRole) {
-        if (this.role.equals(newRole)) {
-            return this;
-        }
-        return new User(this.id, this.login, this.passwordHash, newRole);
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     @Override
@@ -79,5 +61,4 @@ public final class User {
     public int hashCode() {
         return Objects.hash(id);
     }
-
 }

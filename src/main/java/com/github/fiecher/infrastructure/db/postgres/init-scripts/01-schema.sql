@@ -7,7 +7,7 @@ create table if not exists users
     id            bigserial primary key,
     password_hash varchar(128) not null,
     role          user_role    not null default 'user',
-    login          varchar(50)  not null unique,
+    login         varchar(50)  not null unique,
     created_at    timestamptz  not null default current_timestamp,
     updated_at    timestamptz  not null default current_timestamp
 );
@@ -15,7 +15,7 @@ create table if not exists users
 create table if not exists characters
 (
     id                   bigserial primary key,
-    user_id              bigint      not null references users(id) on update cascade on delete cascade,
+    user_id              bigint      not null references users (id) on update cascade on delete cascade,
     name                 varchar(50) not null,
     level                smallint    not null default 1 check (level > 0),
     strength             smallint    not null default 0,
@@ -50,8 +50,8 @@ create table if not exists skills
 
 create table if not exists characters_skills
 (
-    character_id  bigint not null references characters(id) on update cascade on delete cascade,
-    skill_id      bigint not null references skills(id) on update cascade on delete cascade,
+    character_id  bigint not null references characters (id) on update cascade on delete cascade,
+    skill_id      bigint not null references skills (id) on update cascade on delete cascade,
     is_proficient boolean default false,
     is_expertise  boolean default false,
     primary key (character_id, skill_id)
@@ -71,8 +71,8 @@ create table if not exists traits
 
 create table if not exists characters_traits
 (
-    character_id bigint not null references characters(id) on update cascade on delete cascade,
-    trait_id     bigint not null references traits(id) on update cascade on delete cascade,
+    character_id bigint not null references characters (id) on update cascade on delete cascade,
+    trait_id     bigint not null references traits (id) on update cascade on delete cascade,
     primary key (character_id, trait_id)
 );
 
@@ -95,8 +95,8 @@ create table if not exists abilities
 
 create table if not exists characters_abilities
 (
-    character_id bigint not null references characters(id) on update cascade on delete cascade,
-    ability_id   bigint not null references abilities(id) on update cascade on delete cascade,
+    character_id bigint not null references characters (id) on update cascade on delete cascade,
+    ability_id   bigint not null references abilities (id) on update cascade on delete cascade,
     primary key (character_id, ability_id)
 );
 
@@ -109,7 +109,7 @@ create table if not exists weapons
     damage      varchar(50),
     type        varchar(30),
     properties  varchar(50),
-    weight      numeric(5,2),
+    weight      numeric(5, 2),
     price       int,
     created_at  timestamptz not null default current_timestamp,
     updated_at  timestamptz not null default current_timestamp
@@ -117,8 +117,8 @@ create table if not exists weapons
 
 create table if not exists characters_weapons
 (
-    character_id bigint not null references characters(id) on update cascade on delete cascade,
-    weapon_id    bigint not null references weapons(id) on update cascade on delete cascade,
+    character_id bigint not null references characters (id) on update cascade on delete cascade,
+    weapon_id    bigint not null references weapons (id) on update cascade on delete cascade,
     primary key (character_id, weapon_id)
 );
 
@@ -128,7 +128,7 @@ create table if not exists items
     name        varchar(50) not null unique,
     description text,
     image       text,
-    weight      numeric(5,2),
+    weight      numeric(5, 2),
     price       int,
     created_at  timestamptz not null default current_timestamp,
     updated_at  timestamptz not null default current_timestamp
@@ -136,8 +136,8 @@ create table if not exists items
 
 create table if not exists characters_items
 (
-    character_id bigint not null references characters(id) on update cascade on delete cascade,
-    item_id      bigint not null references items(id) on update cascade on delete cascade,
+    character_id bigint not null references characters (id) on update cascade on delete cascade,
+    item_id      bigint not null references items (id) on update cascade on delete cascade,
     primary key (character_id, item_id)
 );
 
@@ -149,7 +149,7 @@ create table if not exists armor
     image       text,
     ac          smallint,
     armor_type  varchar(30),
-    weight      numeric(5,2),
+    weight      numeric(5, 2),
     price       int,
     created_at  timestamptz not null default current_timestamp,
     updated_at  timestamptz not null default current_timestamp
@@ -157,18 +157,18 @@ create table if not exists armor
 
 create table if not exists characters_armor
 (
-    character_id bigint not null references characters(id) on update cascade on delete cascade,
-    armor_id     bigint not null references armor(id) on update cascade on delete cascade,
+    character_id bigint not null references characters (id) on update cascade on delete cascade,
+    armor_id     bigint not null references armor (id) on update cascade on delete cascade,
     primary key (character_id, armor_id)
 );
 
 create index on characters (user_id);
-create index on characters_skills(character_id, skill_id);
-create index on characters_traits(character_id, trait_id);
-create index on characters_abilities(character_id, ability_id);
-create index on characters_weapons(character_id, weapon_id);
-create index on characters_items(character_id, item_id);
-create index on characters_armor(character_id, armor_id);
+create index on characters_skills (character_id, skill_id);
+create index on characters_traits (character_id, trait_id);
+create index on characters_abilities (character_id, ability_id);
+create index on characters_weapons (character_id, weapon_id);
+create index on characters_items (character_id, item_id);
+create index on characters_armor (character_id, armor_id);
 
 create or replace function set_updated_at()
     returns trigger as
@@ -179,14 +179,16 @@ begin
 end;
 $$ language plpgsql;
 
-DO $$
+DO
+$$
     DECLARE
         r record;
     BEGIN
         FOR r IN
             SELECT table_name
             FROM information_schema.columns
-            WHERE column_name = 'updated_at' AND table_schema = 'public'
+            WHERE column_name = 'updated_at'
+              AND table_schema = 'public'
             LOOP
                 EXECUTE format('
             CREATE TRIGGER %I_update_ts

@@ -1,25 +1,33 @@
 package com.github.fiecher.domain.models;
 
+import java.util.Objects;
+
 public class Item {
     private Long id;
     private String name;
     private String description;
     private String image;
-    private double weight;
-    private int price;
+    private Double weight;
+    private Integer price;
 
-    public Item() {}
-
-    public Item(Long id, String name) {
-        this.id = id;
-        this.name = name;
+    public Item(String name) {
+        this.name = Objects.requireNonNull(name);
     }
 
-    public Long getId() {
+    public Item(Long id, String name, String description, String image, Double weight, Integer price) {
+        this.id = id;
+        this.name = Objects.requireNonNull(name);
+        this.description = description;
+        this.image = image;
+        this.weight = weight;
+        this.price = price;
+    }
+
+    public Long getID() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setID(Long id) {
         this.id = id;
     }
 
@@ -47,19 +55,32 @@ public class Item {
         this.image = image;
     }
 
-    public double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass() || id == null) return false;
+        Item item = (Item) o;
+        return Objects.equals(id, item.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

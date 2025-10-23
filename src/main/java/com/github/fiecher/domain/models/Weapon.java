@@ -1,29 +1,40 @@
 package com.github.fiecher.domain.models;
 
+import java.util.Objects;
+
 public class Weapon {
     private Long id;
     private String name;
     private String description;
     private String image;
-    private int damage;
+    private String damage;
     private String type;
     private String properties;
-    private double weight;
-    private int price;
+    private Double weight;
+    private Integer price;
 
-    public Weapon() {}
-
-    public Weapon(Long id, String name, int damage) {
-        this.id = id;
-        this.name = name;
-        this.damage = damage;
+    public Weapon(String name, String damage) {
+        this.name = Objects.requireNonNull(name);
+        this.damage = Objects.requireNonNull(damage);
     }
 
-    public Long getId() {
+    public Weapon(Long id, String name, String description, String image, String damage, String type, String properties, Double weight, Integer price) {
+        this.id = id;
+        this.name = Objects.requireNonNull(name);
+        this.description = description;
+        this.image = image;
+        this.damage = damage;
+        this.type = type;
+        this.properties = properties;
+        this.weight = weight;
+        this.price = price;
+    }
+
+    public Long getID() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setID(Long id) {
         this.id = id;
     }
 
@@ -51,11 +62,11 @@ public class Weapon {
         this.image = image;
     }
 
-    public int getDamage() {
+    public String getDamage() {
         return damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(String damage) {
         this.damage = damage;
     }
 
@@ -75,19 +86,32 @@ public class Weapon {
         this.properties = properties;
     }
 
-    public double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass() || id == null) return false;
+        Weapon weapon = (Weapon) o;
+        return Objects.equals(id, weapon.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
